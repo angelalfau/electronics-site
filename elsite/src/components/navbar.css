@@ -1,0 +1,57 @@
+.navbar {
+    display: flex !important;
+    justify-content: flex-start !important;
+}
+
+.nav-brand {
+    color: black;
+    padding: 10px;
+    border: 0;
+    text-decoration: none;
+    flex: 1;
+}
+
+.hidden {
+    display: contents !important;
+}
+
+.dropdown-toggle {
+    display: contents !important;
+}
+
+.dropdown-toggle::after {
+    content: none !important;
+}
+
+.usermenu {
+    position: absolute !important;
+    margin: auto !important;
+    left: auto !important;
+    right: 0 !important;
+}
+
+#UserLogo {
+    margin-left: 20px;
+    margin-right: 5px;
+    width: 100%;
+    left: auto;
+    right: 0;
+
+    border-style: solid;
+    border-radius: 100%;
+    border-color: white;
+
+    height: auto;
+    max-height: 50px;
+    max-width: 50px;
+}
+
+#dark {
+    color: white;
+    background-color: black;
+}
+
+#light {
+    color: black;
+    background-color: white;
+}
