@@ -1,14 +1,17 @@
 .navbar {
     display: flex !important;
     justify-content: flex-start !important;
+    /* position: fixed !important; */
 }
 
 .nav-brand {
-    color: black;
-    padding: 10px;
     border: 0;
     text-decoration: none;
     flex: 1;
+    font-family: monospace;
+    font-size: 150%;
+    padding: 0;
+    margin-left: 0.5%;
 }
 
 .hidden {
@@ -24,22 +27,19 @@
 }
 
 .usermenu {
-    position: absolute !important;
-    margin: auto !important;
+    margin-top: 60px !important;
     left: auto !important;
     right: 0 !important;
 }
 
 #UserLogo {
     margin-left: 20px;
-    margin-right: 5px;
-    width: 100%;
-    left: auto;
-    right: 0;
+    margin-right: 0.5%;
 
     border-style: solid;
     border-radius: 100%;
     border-color: white;
+    border-width: 2px;
 
     height: auto;
     max-height: 50px;
@@ -49,6 +49,7 @@
 #dark {
     color: white;
     background-color: black;
+    /* background-image: linear-gradient(180deg, transparent, rgba(37, 37, 37, 0.61), #111); */
 }
 
 #light {

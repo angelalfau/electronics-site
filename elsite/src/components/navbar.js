@@ -7,15 +7,26 @@ import "bootstrap/dist/css/bootstrap.css";
 import { FiSun, FiMoon } from "react-icons/fi";
 
 import logo from "./icons/default-user-icon.jpg";
-import homelogo from "./icons/home-logo_adobespark.png";
 
 // We import NavLink to utilize the react router.
 import { NavLink } from "react-router-dom";
+import DarkMode from "./darkMode.js";
 
 // Here, we display our Navbar
-const Navbar = () => {
-    const [dark, setDark] = useState(false);
-    const [show, handleShow] = useState(false);
+const Navbar = ({ stateChanger, themeToggler }) => {
+    const [dark, setDark] = useState("dark");
+    // const isDark = DarkMode();
+
+    const DarkToggler = () => {
+        dark ? setDark(false) : setDark(true);
+    };
+
+    // const [show, handleShow] = useState(false);
+
+    const click = () => {
+        themeToggler();
+        console.log("click");
+    };
 
     // useEffect(() => {
     //     window.addEventListener("scroll", () => {
@@ -28,22 +39,19 @@ const Navbar = () => {
     //     };
     // }, []);
 
-    const darkToggler = () => {
-        dark ? setDark(false) : setDark(true);
-    };
+    // const darkToggler = () => {
+    //     dark ? setDark(false) : setDark(true);
+    // };
 
     return (
         <div>
             <nav id={`${dark ? "dark" : "light"}`} className="navbar">
-                {/* <NavLink id={`${dark ? "dark" : "light"}`} className="nav-brand" to="/">
-                    ELSITO
-                </NavLink> */}
-                <a href="/" className="nav-brand">
-                    ELSITO
-                </a>
-                <div id={`${dark ? "dark" : "light"}`} flex="1"></div>
-                <div id={`${dark ? "dark" : "light"}`} width="200"></div>
-                <Button flex="1" className="hidden" onClick={() => darkToggler()}>
+                <div className="nav-brand">
+                    <NavLink id={`${dark ? "dark" : "light"}`} className="nav-brand" to="/">
+                        ELSITO
+                    </NavLink>
+                </div>
+                <Button flex="1" className="hidden" onClick={() => click()}>
                     {dark ? <FiSun size={30} /> : <FiMoon size={30} color="black" />}
                 </Button>
 
@@ -61,7 +69,6 @@ const Navbar = () => {
                     </Dropdown.Menu>
                 </Dropdown>
             </nav>
-            <nav>My Circuits</nav>
         </div>
     );
 };
