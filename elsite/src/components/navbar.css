@@ -1,7 +1,9 @@
 .navbar {
+    position: fixed !important;
     display: flex !important;
     justify-content: flex-start !important;
-    /* position: fixed !important; */
+    transition: all 0.5s linear;
+    width: 100%;
 }
 
 .nav-brand {
@@ -12,6 +14,7 @@
     font-size: 150%;
     padding: 0;
     margin-left: 0.5%;
+    transition: all 0.5s linear;
 }
 
 .hidden {
@@ -27,14 +30,16 @@
 }
 
 .usermenu {
-    margin-top: 60px !important;
+    margin-top: 55px !important;
     left: auto !important;
     right: 0 !important;
+    transition: all 0.25s linear;
 }
 
 #UserLogo {
     margin-left: 20px;
     margin-right: 0.5%;
+    right: 100%;
 
     border-style: solid;
     border-radius: 100%;
@@ -47,7 +52,7 @@
 }
 
 #dark {
-    color: white;
+    color: white !important;
     background-color: black;
     /* background-image: linear-gradient(180deg, transparent, rgba(37, 37, 37, 0.61), #111); */
 }

@@ -10,17 +10,9 @@ import logo from "./icons/default-user-icon.jpg";
 
 // We import NavLink to utilize the react router.
 import { NavLink } from "react-router-dom";
-import DarkMode from "./darkMode.js";
 
 // Here, we display our Navbar
-const Navbar = ({ stateChanger, themeToggler }) => {
-    const [dark, setDark] = useState("dark");
-    // const isDark = DarkMode();
-
-    const DarkToggler = () => {
-        dark ? setDark(false) : setDark(true);
-    };
-
+const Navbar = ({ themeToggler, themeDark }) => {
     // const [show, handleShow] = useState(false);
 
     const click = () => {
@@ -39,20 +31,16 @@ const Navbar = ({ stateChanger, themeToggler }) => {
     //     };
     // }, []);
 
-    // const darkToggler = () => {
-    //     dark ? setDark(false) : setDark(true);
-    // };
-
     return (
         <div>
-            <nav id={`${dark ? "dark" : "light"}`} className="navbar">
+            <nav id={themeDark ? "dark" : "light"} className="navbar">
                 <div className="nav-brand">
-                    <NavLink id={`${dark ? "dark" : "light"}`} className="nav-brand" to="/">
+                    <NavLink className="nav-brand" id={themeDark ? "dark" : "light"} to="/">
                         ELSITO
                     </NavLink>
                 </div>
                 <Button flex="1" className="hidden" onClick={() => click()}>
-                    {dark ? <FiSun size={30} /> : <FiMoon size={30} color="black" />}
+                    {themeDark ? <FiSun size={30} /> : <FiMoon size={30} color="black" />}
                 </Button>
 
                 <Dropdown className="hidden" flex="1">

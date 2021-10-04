@@ -10,25 +10,22 @@ import { lightTheme, darkTheme } from "./components/Themes";
 import Navbar from "./components/navbar";
 import Edit from "./components/edit";
 import Create from "./components/create";
-import RecordList from "./components/recordList";
+import HomePage from "./components/homePage";
 
 const App = () => {
-    const [theme, setTheme] = useState("light");
+    const [themeDark, setThemeDark] = useState(false);
     const themeToggler = () => {
-        theme === "light" ? setTheme("dark") : setTheme("light");
+        themeDark ? setThemeDark(false) : setThemeDark(true);
     };
 
     return (
-        <ThemeProvider theme={theme === "light" ? lightTheme : darkTheme}>
+        <ThemeProvider theme={themeDark ? darkTheme : lightTheme}>
             <>
                 <GlobalStyles />
                 <div>
-                    {/* <button className="themebtn" onClick={themeToggler}>
-                        Switch Theme
-                    </button> */}
-                    <Navbar themeToggler={themeToggler} />
+                    <Navbar themeToggler={themeToggler} themeDark={themeDark} />
                     <Route exact path="/">
-                        <RecordList />
+                        <HomePage />
                     </Route>
                     <Route path="/edit/:id" component={Edit} />
                     <Route path="/create">
