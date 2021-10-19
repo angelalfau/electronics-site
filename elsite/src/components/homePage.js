@@ -40,11 +40,17 @@ const HomePage = () => {
             <div id="container">
                 <h1 id="summary">A budget manager app to help manage budget!</h1>
                 <Form id="loginform">
+                    <Form.Group className="formelement" controlId="formName">
+                        <Form.Control required type="text" placeholder="Name" />
+                    </Form.Group>
                     <Form.Group className="formelement" controlId="formBasicEmail">
                         <Form.Control required type="email" placeholder="Email address" />
                     </Form.Group>
                     <Form.Group className="formelement" controlId="formBasicPassword">
                         <Form.Control required type="password" placeholder="Password" />
+                    </Form.Group>
+                    <Form.Group className="formelement" controlId="formBasicPassword">
+                        <Form.Control required type="password" placeholder="Confirm password" />
                     </Form.Group>
                     <Button className="formelement" id="loginbtn" type="submit">
                         Sign in

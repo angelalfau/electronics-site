@@ -14,17 +14,20 @@
     justify-content: space-between;
 }
 
-@media screen and (max-width: 700px) {
+@media screen and (max-width: 800px) {
     #container {
         flex-direction: column;
         justify-content: center;
+        align-items: center;
     }
     #summary {
-        margin: auto !important;
-        margin-bottom: 10% !important;
+        margin: 10% !important;
+        margin-top: 0 !important;
+        max-width: 500px;
     }
     #loginform {
-        margin: auto !important;
+        margin: 5% !important;
+        /* max-width: 500px; */
     }
 }
 

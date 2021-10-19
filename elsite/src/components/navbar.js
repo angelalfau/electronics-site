@@ -36,7 +36,7 @@ const Navbar = ({ themeToggler, themeDark }) => {
             <nav id={themeDark ? "dark" : "light"} className="navbar">
                 <div className="nav-brand">
                     <NavLink className="nav-brand" id={themeDark ? "dark" : "light"} to="/">
-                        ELSITO
+                        el<span id="brandstar">⭐</span>sito
                     </NavLink>
                 </div>
                 <Button flex="1" className="hidden" onClick={() => click()}>
