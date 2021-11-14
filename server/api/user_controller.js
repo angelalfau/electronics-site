@@ -1,8 +1,10 @@
 const express = require("express");
 const router = express.Router();
-const Users = require("../models/Users");
-var user = require("../service/user");
+// const User = require("../models/User");
+const user = require("../service/user");
+var path = require("path");
 
+// route for logging in
 router.get("/user/{email}/{password}", async (req, res) => {
     try {
         user.login(req.body);
@@ -11,12 +13,18 @@ router.get("/user/{email}/{password}", async (req, res) => {
     }
 });
 
-// route for getting all users, must be authorized
+// route for getting all users, must be authorized ideally
 router.get("/allusers", async (req, res) => {
     try {
-        user.getAllUsers();
+        const get = await user.getAllUsers();
+        get.forEach((acc) => {
+            res.write(acc.email);
+            res.write("\n");
+        });
+        res.status(201).send();
     } catch (e) {
         // res.status(400).json({ msg: error });
+        console.log(e);
         res.status(400).send(e.msg);
     }
 });
@@ -24,8 +32,13 @@ router.get("/allusers", async (req, res) => {
 // route for registering a user
 router.post("/signup", async (req, res) => {
     try {
+        console.log("signing up");
+        console.log(req.body);
         post = await user.signup(req.body);
-        res.status(201).json(post);
+        // res.status(201).json(post);
+        res.statusCode = 301;
+        res.setHeader("Registering", "http://localhost:3000/");
+        res.end();
     } catch (error) {
         res.status(400).json(error.message);
     }
@@ -34,10 +47,20 @@ router.post("/signup", async (req, res) => {
 // route for deleting a user account
 router.delete("/removeuser", async (req, res) => {
     try {
-        deleted = user.deleteUser(req.body);
+        deleted = await user.deleteUser(req.body);
         res.status(200).json(deleted);
     } catch (error) {
         res.status(400).json(error.message);
+    }
+});
+
+router.delete("/deleteallusers", async (req, res) => {
+    console.log("attempting to delete all");
+    try {
+        await user.deleteAllUsers();
+        res.status(200).send("deleted all users. hope this was not a mistake");
+    } catch (err) {
+        res.status(400).json(err);
     }
 });
 

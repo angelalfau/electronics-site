@@ -1,6 +1,6 @@
 const express = require("express");
 const { userInfo } = require("os");
-const Users = require("../models/Users");
+const User = require("../models/User");
 
 const login = () => {
     res.status(200).send("uwu login feature");
@@ -9,7 +9,7 @@ const login = () => {
 // register a new user
 // check if email is alrdy signed up
 const signup = async (body) => {
-    const newUser = new Users(body);
+    const newUser = new User(body);
     const post = await newUser.save();
     return post;
 };
@@ -23,9 +23,20 @@ const deleteUser = async (body) => {
 
 // retrieve JSON's of all users
 // for admin purposes
-const getAllUsers = async () => {};
+const getAllUsers = async () => {
+    const ret = await User.find({});
+    return ret;
+};
+
+const deleteAllUsers = async () => {
+    User.deleteMany({}, (err, result) => {
+        if (err) console.log(err);
+        else console.log(result);
+    });
+};
 
 exports.login = login;
 exports.signup = signup;
 exports.deleteUser = deleteUser;
 exports.getAllUsers = getAllUsers;
+exports.deleteAllUsers = deleteAllUsers;

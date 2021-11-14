@@ -1,4 +1,4 @@
 module.exports = {
-    Banks: require("./api/bank_controller"),
-    Users: require("./api/user_controller"),
+    Bank: require("./api/bank_controller"),
+    User: require("./api/user_controller"),
 };

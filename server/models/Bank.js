@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const BanksSchema = new Schema({
+const BankSchema = new Schema({
     email: {
         type: String,
         required: true,
@@ -16,4 +16,4 @@ const BanksSchema = new Schema({
     },
 });
 
-module.exports = mongoose.model("Banks", BanksSchema);
+module.exports = mongoose.model("Bank", BankSchema);
