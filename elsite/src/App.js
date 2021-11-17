@@ -8,8 +8,6 @@ import { GlobalStyles } from "./components/globalStyles";
 import { lightTheme, darkTheme } from "./components/Themes";
 // We import all the components we need in our app
 import Navbar from "./components/navbar";
-import Edit from "./components/edit";
-import Create from "./components/create";
 import HomePage from "./components/homePage";
 import TransactionPage from "./components/transactionPage";
 
@@ -30,10 +28,6 @@ const App = () => {
                     </Route>
                     <Route path="/transactions">
                         <TransactionPage />
-                    </Route>
-                    <Route path="/edit/:id" component={Edit} />
-                    <Route path="/create">
-                        <Create />
                     </Route>
                 </div>
             </>
