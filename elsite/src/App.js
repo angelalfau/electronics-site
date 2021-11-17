@@ -1,6 +1,6 @@
 import { React, useState } from "react";
 import "./App.css";
-import axios from "axios";
+import instance from "./components/axios";
 // We use Route in order to define the different routes of our application
 import { Route } from "react-router-dom";
 import { ThemeProvider } from "styled-components";
@@ -11,6 +11,7 @@ import Navbar from "./components/navbar";
 import Edit from "./components/edit";
 import Create from "./components/create";
 import HomePage from "./components/homePage";
+import TransactionPage from "./components/transactionPage";
 
 const App = () => {
     const [themeDark, setThemeDark] = useState(false);
@@ -26,6 +27,9 @@ const App = () => {
                     <Navbar themeToggler={themeToggler} themeDark={themeDark} />
                     <Route exact path="/">
                         <HomePage />
+                    </Route>
+                    <Route path="/transactions">
+                        <TransactionPage />
                     </Route>
                     <Route path="/edit/:id" component={Edit} />
                     <Route path="/create">
