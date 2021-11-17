@@ -35,10 +35,7 @@ router.post("/signup", async (req, res) => {
         console.log("signing up");
         console.log(req.body);
         post = await user.signup(req.body);
-        // res.status(201).json(post);
-        res.statusCode = 301;
-        res.setHeader("Registering", "http://localhost:3000/");
-        res.end();
+        res.status(201).json(post);
     } catch (error) {
         res.status(400).json(error.message);
     }
