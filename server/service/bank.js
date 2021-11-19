@@ -26,7 +26,7 @@ const createToken = async (body) => {
     }
 };
 
-const sandboxCreateToken = async (body) => {
+const sandboxCreateToken = async () => {
     try {
         await sb_instance
             .post("/sandbox/public_token/create", {
@@ -68,6 +68,7 @@ const sandboxCreateToken = async (body) => {
 };
 
 const getBalance = async (access_token) => {
+    var ret = "";
     try {
         await sb_instance
             .post("/accounts/balance/get", {
@@ -76,20 +77,24 @@ const getBalance = async (access_token) => {
                 secret: process.env.PLAID_SECRET,
             })
             .then((res) => {
-                console.log("finished getting balance");
-                const ret = [];
-                res.data.accounts.forEach((account) => {
-                    ret.push(account.name);
-                    ret.push(account.balances.current);
-                    // console.log(account.balances);
-                });
-                for (let i = 0; i < ret.length - 1; i += 2) {
-                    console.log(ret[i] + "\t$" + ret[i + 1] + "\n");
-                }
+                // console.log("finished getting balance");
+                // console.log(res.data);
+                // res.data.accounts.forEach((account) => {
+                //     ret.push(account.name);
+                //     ret.push(account.balances.current);
+                //     // console.log(account.balances);
+                // });
+                // for (let i = 0; i < ret.length - 1; i += 2) {
+                //     console.log(ret[i] + "\t$" + ret[i + 1] + "\n");
+                // }
+                // console.log(res.data);
+                ret = res.data;
+                // return res.data;
             });
     } catch (err) {
         console.log(err);
     }
+    return ret;
 };
 
 exports.createToken = createToken;

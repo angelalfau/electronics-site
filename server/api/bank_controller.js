@@ -35,11 +35,11 @@ router.post("/create-token", async (req, res) => {
     }
 });
 
+// generates new sandbox token, no params needed
 router.post("/sb-create-token", async (req, res) => {
     console.log("attempting to create sandbox token");
-    console.log(req.body);
     try {
-        await bank.sandboxCreateToken(req.body);
+        await bank.sandboxCreateToken();
         res.status(200).send("created sandbox token");
     } catch (err) {
         console.log(err);
@@ -47,13 +47,16 @@ router.post("/sb-create-token", async (req, res) => {
     }
 });
 
+// gets user balance, given access_token
 router.post("/balance", async (req, res) => {
     console.log("attempting to get balance");
     console.log(req.body);
     try {
         const access_token = req.body.access_token;
-        await bank.getBalance(access_token);
-        res.status(200).send("obtained balance");
+        const ret = await bank.getBalance(access_token);
+        console.log("returning balance");
+        console.log(ret);
+        res.status(200).send(ret);
     } catch (err) {
         console.log(err);
         res.status(400).json(err);

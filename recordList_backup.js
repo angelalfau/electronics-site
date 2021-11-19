@@ -4,7 +4,7 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import background from "./icons/black-circuit.png";
 import "./recordList.css";
-import Navbar from "./navbar";
+import Navbar from "./elsite/src/components/navbar";
 
 const Record = (props) => (
     <tr>

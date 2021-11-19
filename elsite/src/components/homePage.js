@@ -2,8 +2,6 @@ import { React, useState, useEffect } from "react";
 // This will require to npm install axios
 import instance from "./axios.js";
 import { Link } from "react-router-dom";
-import dark_background from "./icons/black-circuit.png";
-import light_background from "./icons/light_circuit.jpg";
 import "./homePage.css";
 import { Form, Button } from "react-bootstrap";
 import { alignPropType } from "react-bootstrap/esm/DropdownMenu";
@@ -62,21 +60,21 @@ const HomePage = () => {
         } catch (err) {
             console.log(err);
         }
-        try {
-            await instance.post("/create-token", {
-                username: "user_good",
-                password: "pass_good",
-            });
-        } catch (err) {
-            console.log(err);
-        }
+        // try {
+        //     await instance.post("/create-token", {
+        //         username: "user_good",
+        //         password: "pass_good",
+        //     });
+        // } catch (err) {
+        //     console.log(err);
+        // }
     };
 
     // This following section will display the table with the records of individuals.
     return (
         <div id="background">
             <div id="container">
-                <h1 id="summary">A budget manager app to help manage budget!</h1>
+                <h2 id="summary">A budget manager app to help manage budget!</h2>
                 <Form id="loginform" onSubmit={handleSignup}>
                     <Form.Group className="formelement" controlId="formName">
                         <Form.Control

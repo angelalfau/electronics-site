@@ -21,3 +21,13 @@
 .App-link {
     color: #61dafb;
 }
+
+div {
+    font-family: "Josefin Sans", sans-serif;
+}
+
+@media screen and (max-width: 800px) {
+    div {
+        font-family: "Josefin Sans", sans-serif;
+    }
+}
