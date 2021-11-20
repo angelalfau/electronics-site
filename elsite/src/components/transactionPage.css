@@ -16,6 +16,7 @@ table {
     table-layout: fixed;
     border: 1px solid black;
     background: linear-gradient(90deg, rgba(9, 133, 9, 0.6) 0%, rgba(13, 203, 181, 0.6) 100%);
+    min-width: 600px;
 }
 
 th {
@@ -26,6 +27,7 @@ th {
     color: black;
     text-transform: uppercase;
     border: 0.5px solid black;
+    min-width: 200px;
 }
 
 td {
@@ -37,22 +39,7 @@ td {
     color: black;
     text-transform: uppercase;
     border: 0.5px solid black;
-}
-
-#transactionbackground {
-    padding-top: 150px;
-    width: 100%;
-    /* height: 1000px; */
-}
-
-#transactioncontainer {
-    display: flex;
-    margin: auto;
-    width: 90%;
-    /* max-width: fit-content; */
-    justify-content: space-between;
-    align-items: center;
-    flex-direction: column;
+    min-width: 200px;
 }
 
 .tbl-header {
@@ -66,6 +53,23 @@ td {
     overflow-x: auto;
     margin-top: 0px;
     /* border: 1px solid rgba(255, 255, 255, 0.3); */
+}
+
+#transactionbackground {
+    padding-top: 150px;
+    width: 100%;
+    min-width: 1000px !important;
+    /* height: 1000px; */
+}
+
+#transactioncontainer {
+    display: flex;
+    margin: auto;
+    width: 90%;
+    /* max-width: fit-content; */
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: column;
 }
 
 #endsection {

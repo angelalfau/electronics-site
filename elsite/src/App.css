@@ -37,4 +37,5 @@ div {
     background-color: #282c34;
     height: auto;
     margin: 0;
+    min-width: fit-content;
 }
