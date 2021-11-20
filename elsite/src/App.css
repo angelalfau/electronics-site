@@ -24,10 +24,17 @@
 
 div {
     font-family: "Josefin Sans", sans-serif;
+    transition: all 0.5s linear;
 }
 
 @media screen and (max-width: 800px) {
     div {
         font-family: "Josefin Sans", sans-serif;
     }
+}
+
+#body-background {
+    background-color: #282c34;
+    height: auto;
+    margin: 0;
 }

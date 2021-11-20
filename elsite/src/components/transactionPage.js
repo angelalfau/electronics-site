@@ -1,5 +1,5 @@
 import React from "react";
-import "./transactionPage.css";
+// import "./transactionPage.css";
 import instance from "./axios.js";
 import { useEffect, useState } from "react";
 

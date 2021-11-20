@@ -26,3 +26,6 @@ yarn-error.log*
 /server/config.js
 /server/config.env
 /server/.env
+
+# backups
+recordList_backup.js
