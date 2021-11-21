@@ -93,7 +93,7 @@ const getTransactions = async (access_token) => {
                 access_token: access_token,
                 client_id: process.env.PLAID_CLIENT_ID,
                 secret: process.env.PLAID_SECRET,
-                start_date: "2021-10-20",
+                start_date: "2021-11-10",
                 end_date: "2021-11-20",
             })
             .then((res) => {

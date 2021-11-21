@@ -17,7 +17,7 @@ const Navbar = ({ themeToggler, themeDark }) => {
 
     const click = () => {
         themeToggler();
-        console.log("click");
+        // console.log("click");
     };
 
     // useEffect(() => {

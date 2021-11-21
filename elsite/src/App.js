@@ -23,7 +23,7 @@ const App = () => {
                     <HomePage />
                 </Route>
                 <Route exact path="/balance">
-                    <BalancePage />
+                    <BalancePage themeDark={themeDark} />
                 </Route>
             </div>
         </div>
