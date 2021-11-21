@@ -55,17 +55,17 @@ td {
     /* border: 1px solid rgba(255, 255, 255, 0.3); */
 }
 
-#transactionbackground {
+#balancebackground {
     padding-top: 150px;
     width: 100%;
     min-width: 1000px !important;
     /* height: 1000px; */
 }
 
-#transactioncontainer {
+#balancecontainer {
     display: flex;
     margin: auto;
-    width: 90%;
+    width: 70%;
     /* max-width: fit-content; */
     justify-content: space-between;
     align-items: center;

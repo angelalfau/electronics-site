@@ -77,21 +77,30 @@ const getBalance = async (access_token) => {
                 secret: process.env.PLAID_SECRET,
             })
             .then((res) => {
-                // console.log("finished getting balance");
-                // console.log(res.data);
-                // res.data.accounts.forEach((account) => {
-                //     ret.push(account.name);
-                //     ret.push(account.balances.current);
-                //     // console.log(account.balances);
-                // });
-                // for (let i = 0; i < ret.length - 1; i += 2) {
-                //     console.log(ret[i] + "\t$" + ret[i + 1] + "\n");
-                // }
-                // console.log(res.data);
                 ret = res.data;
-                // return res.data;
             });
     } catch (err) {
+        console.log(err);
+    }
+    return ret;
+};
+
+const getTransactions = async (access_token) => {
+    var ret = "";
+    try {
+        await sb_instance
+            .post("/transactions/get", {
+                access_token: access_token,
+                client_id: process.env.PLAID_CLIENT_ID,
+                secret: process.env.PLAID_SECRET,
+                start_date: "2021-10-20",
+                end_date: "2021-11-20",
+            })
+            .then((res) => {
+                ret = res.data;
+            });
+    } catch (err) {
+        console.log("error while getting transactions from Plaid");
         console.log(err);
     }
     return ret;
@@ -100,3 +109,4 @@ const getBalance = async (access_token) => {
 exports.createToken = createToken;
 exports.sandboxCreateToken = sandboxCreateToken;
 exports.getBalance = getBalance;
+exports.getTransactions = getTransactions;

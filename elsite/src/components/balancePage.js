@@ -1,9 +1,9 @@
 import React from "react";
-import "./transactionPage.css";
+import "./balancePage.css";
 import instance from "./axios.js";
 import { useEffect, useState } from "react";
 
-const Transaction = ({ account }) => {
+const Balance = ({ account }) => {
     // console.log(account);
     var formatter = new Intl.NumberFormat("en-US", {
         style: "currency",
@@ -19,7 +19,7 @@ const Transaction = ({ account }) => {
     );
 };
 
-const TransactionPage = () => {
+const BalancePage = () => {
     const [page, setPage] = useState(0);
     const [mainAcc, setMainAcc] = useState({ accounts: [] });
     const [loading, setLoading] = useState(true);
@@ -48,22 +48,22 @@ const TransactionPage = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    const transactionList = (page) => {
+    const balanceList = (page) => {
         // console.log("acc");
         // console.log(mainAcc.accounts);
         return mainAcc.accounts?.map((currentAccount, i) => {
             // console.log("curr Acc");
             // console.log(currentAccount);
 
-            return <Transaction key={i} account={currentAccount} />;
+            return <Balance key={i} account={currentAccount} />;
             // console.log("?");
             // return <h1>hello</h1>;
         });
     };
 
     return (
-        <div id="transactionbackground">
-            <div id="transactioncontainer" class="tbl-header">
+        <div id="balancebackground">
+            <div id="balancecontainer" class="tbl-header">
                 {loading ? (
                     <p>Currently Loading...</p>
                 ) : (
@@ -76,7 +76,7 @@ const TransactionPage = () => {
                             </tr>
                         </thead>
                         <tbody className="tbl-content" cellPadding="0" cellSpacing="0">
-                            {transactionList()}
+                            {balanceList()}
                         </tbody>
                     </table>
                 )}
@@ -86,4 +86,4 @@ const TransactionPage = () => {
     );
 };
 
-export default TransactionPage;
+export default BalancePage;

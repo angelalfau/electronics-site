@@ -7,7 +7,7 @@ import "./components/themes.css";
 // We import all the components we need in our app
 import Navbar from "./components/navbar";
 import HomePage from "./components/homePage";
-import TransactionPage from "./components/transactionPage";
+import BalancePage from "./components/balancePage";
 
 const App = () => {
     const [themeDark, setThemeDark] = useState(false);
@@ -22,8 +22,8 @@ const App = () => {
                 <Route exact path="/">
                     <HomePage />
                 </Route>
-                <Route exact path="/transactions">
-                    <TransactionPage />
+                <Route exact path="/balance">
+                    <BalancePage />
                 </Route>
             </div>
         </div>

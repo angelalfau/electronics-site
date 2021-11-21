@@ -63,4 +63,18 @@ router.post("/balance", async (req, res) => {
     }
 });
 
+router.post("/transactions", async (req, res) => {
+    console.log("getting transactions...");
+    try {
+        const access_token = req.body.access_token;
+        const ret = await bank.getTransactions(access_token);
+        console.log("returning Transactions");
+        console.log(ret);
+        res.status(200).send(ret);
+    } catch (err) {
+        console.log(err);
+        res.status(400).send(err);
+    }
+});
+
 module.exports = router;
