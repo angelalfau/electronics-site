@@ -15,7 +15,7 @@ table {
     width: 100%;
     table-layout: fixed;
     border: 1px solid black;
-    background: linear-gradient(90deg, rgba(9, 133, 9, 0.6) 0%, rgba(13, 203, 181, 0.6) 100%);
+    background: linear-gradient(90deg, rgba(9, 133, 9, 0.7) 0%, rgba(13, 203, 181, 0.7) 100%);
     min-width: 600px;
 }
 
@@ -24,10 +24,11 @@ th {
     text-align: left;
     font-weight: 600;
     font-size: 1.4rem;
-    color: black;
+    /* color: black; */
     text-transform: uppercase;
     border: 0.5px solid black;
     min-width: 200px;
+    background-color: rgba(255, 255, 255, 0.3);
 }
 
 td {
@@ -36,14 +37,14 @@ td {
     vertical-align: middle;
     font-weight: 300;
     font-size: 1.3rem;
-    color: black;
+    /* color: black; */
     text-transform: uppercase;
     border: 0.5px solid black;
     min-width: 200px;
 }
 
 .tbl-header {
-    background-color: rgba(255, 255, 255, 0.3);
+    /* background-color: rgba(255, 255, 255, 0.3); */
     font-weight: bold;
     font-size: 2rem;
 }
@@ -61,7 +62,6 @@ td {
     background: 0;
     padding: 0;
     color: inherit;
-    animation: all 0.25s linear !important;
 }
 
 .selected {
@@ -77,6 +77,8 @@ td {
     width: 100%;
     min-width: 1000px !important;
     /* height: 1000px; */
+    /* min-height: 950px; */
+    height: 100%;
 }
 
 #balancecontainer {
@@ -97,7 +99,7 @@ td {
     flex-direction: column;
     margin-top: 2.5%;
     padding: 0;
-    animation: all 0.25s linear !important;
+    /* animation: all 0.25s linear !important; */
 }
 
 #tables {

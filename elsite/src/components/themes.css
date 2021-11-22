@@ -1,9 +1,11 @@
 .lightTheme {
     color: black;
     background-color: white;
+    transition: all 0.5s linear;
 }
 
 .darkTheme {
     color: white;
     background-color: black;
+    transition: all 0.5s linear;
 }

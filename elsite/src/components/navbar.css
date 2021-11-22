@@ -35,7 +35,7 @@
     margin-top: 55px !important;
     left: auto !important;
     right: 0 !important;
-    transition: all 0.25s linear;
+    /* transition: all 0.25s linear; */
 }
 
 #UserLogo {

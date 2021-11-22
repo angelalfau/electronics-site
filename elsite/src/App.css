@@ -24,7 +24,7 @@
 
 div {
     font-family: "Josefin Sans", sans-serif;
-    transition: all 0.5s linear;
+    /* transition: all 0.3s linear; */
 }
 
 @media screen and (max-width: 800px) {
@@ -38,4 +38,5 @@ div {
     height: auto;
     margin: 0;
     min-width: fit-content;
+    /* transition: all 0.3s linear; */
 }

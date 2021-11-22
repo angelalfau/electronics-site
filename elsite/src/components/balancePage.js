@@ -7,7 +7,7 @@ const Balance = ({ account }) => {
     // console.log(account);
     var formatter = new Intl.NumberFormat("en-US", {
         style: "currency",
-        currency: "USD",
+        currency: account.balances.iso_currency_code || "USD",
     });
 
     return (
