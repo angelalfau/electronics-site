@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { Button, Dropdown } from "react-bootstrap";
-// We import bootstrap to make our application look better.
 import "./navbar.css";
 import "bootstrap/dist/css/bootstrap.css";
 
@@ -8,10 +7,8 @@ import { FiSun, FiMoon } from "react-icons/fi";
 
 import logo from "./icons/default-user-icon.jpg";
 
-// We import NavLink to utilize the react router.
 import { NavLink } from "react-router-dom";
 
-// Here, we display our Navbar
 const Navbar = ({ themeToggler, themeDark }) => {
     // const [show, handleShow] = useState(false);
 

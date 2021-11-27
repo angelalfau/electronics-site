@@ -1,3 +1,19 @@
+.formelement {
+    margin: auto;
+    width: 75%;
+    padding: 10px;
+}
+
+.erroritem {
+    color: red;
+    margin: 0;
+    padding: 0;
+    font-weight: bold;
+    font-size: 1rem;
+    text-align: left;
+    margin-left: 16%;
+}
+
 #background {
     padding-top: 150px;
     width: 100%;
@@ -63,12 +79,6 @@
     margin: auto;
     margin-left: 7.5%;
     padding: 20px;
-}
-
-.formelement {
-    margin: auto;
-    width: 75%;
-    padding: 10px;
 }
 
 #loginbtn {

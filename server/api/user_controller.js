@@ -1,6 +1,5 @@
 const express = require("express");
 const router = express.Router();
-// const User = require("../models/User");
 const user = require("../service/user");
 var path = require("path");
 
@@ -34,8 +33,15 @@ router.post("/signup", async (req, res) => {
     try {
         console.log("signing up");
         console.log(req.body);
-        post = await user.signup(req.body);
-        res.status(201).json(post);
+        [errors, post] = await user.signup(req.body);
+
+        if (errors) {
+            console.log("found errors");
+            console.log(post);
+            res.status(200).json({ errors: post });
+        } else {
+            res.status(201).json(post);
+        }
     } catch (error) {
         res.status(400).json(error.message);
     }

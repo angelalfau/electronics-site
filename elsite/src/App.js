@@ -1,10 +1,8 @@
 import { React, useState } from "react";
 import "./App.css";
 import instance from "./components/axios";
-// We use Route in order to define the different routes of our application
 import { Route } from "react-router-dom";
 import "./components/themes.css";
-// We import all the components we need in our app
 import Navbar from "./components/navbar";
 import HomePage from "./components/homePage";
 import BalancePage from "./components/balancePage";
