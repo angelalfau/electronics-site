@@ -7,6 +7,7 @@ var modules = require("./modules.js");
 require("dotenv").config();
 const port = process.env.PORT || 5000;
 const MONGO_URI = process.env.MONGO_URI;
+const passport = require("passport");
 
 const app = express();
 app.use(cors());
@@ -20,6 +21,10 @@ mongoose
     })
     .then(() => console.log("MongoDB connected!"))
     .catch((err) => console.log(err));
+
+app.use(passport.initialize());
+
+require("./service/passport")(passport);
 
 app.use(modules.Bank, modules.User);
 

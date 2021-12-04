@@ -3,9 +3,65 @@ const { userInfo } = require("os");
 const User = require("../models/User");
 const instance = require("./axios.js");
 const Validator = require("validator");
+const jwt = require("jsonwebtoken");
 
-const login = () => {
-    res.status(200).send("uwu login feature");
+const login = async (body) => {
+    var errors = {};
+    var anyErrors = false;
+
+    if (body.password == "") {
+        errors.password = "Please enter a password";
+        anyErrors = true;
+    }
+
+    if (body.email == "") {
+        errors.email = "Email field is required";
+        anyErrors = true;
+    } else if (!Validator.isEmail(body.email)) {
+        errors.email = "Email is invalid";
+        anyErrors = true;
+    }
+
+    // can add confirm password here
+    // can add hashing/salting of password here
+
+    if (anyErrors) {
+        return [true, errors];
+    } else {
+        var userQuery = "";
+        await User.findOne({ email: body.email, password: body.password }).then((res) => {
+            // console.log("res: ", res);
+            userQuery = res;
+        });
+        console.log("query shown below");
+        console.log(userQuery);
+        if (userQuery) {
+            // Log in successful, set up jwt
+            console.log("Found User");
+            return [false, userQuery];
+            // jwt.sign(
+            //     {
+            //         id: userQuery.id,
+            //         name: userQuery.name,
+            //     },
+            //     "secret",
+            //     {
+            //         expiresIn: 31556926, // 1 year in seconds
+            //     },
+            //     (err, token) => {
+            //         res.json({
+            //             success: true,
+            //             token: "Bearer " + token,
+            //         });
+            //     }
+            // );
+        } else {
+            console.log("incorrect email or password");
+            errors.email = "Incorrect email or password";
+            return [true, errors];
+        }
+        // return [false, post];
+    }
 };
 
 // register a new user
@@ -35,6 +91,7 @@ const signup = async (body) => {
         anyErrors = true;
     }
     // can add confirm password here
+    // can add hashing/salting of password here
 
     if (anyErrors) {
         return [true, errors];

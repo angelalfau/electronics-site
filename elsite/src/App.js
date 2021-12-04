@@ -1,13 +1,18 @@
 import { React, useState } from "react";
 import "./App.css";
-import instance from "./components/axios";
 import { Route } from "react-router-dom";
 import "./components/themes.css";
 import Navbar from "./components/navbar";
-import HomePage from "./components/homePage";
+import SignupPage from "./components/signupPage";
 import BalancePage from "./components/balancePage";
+import LaunchLink from "./components/LaunchLink.tsx";
+import HomePage from "./components/homePage";
 
 const App = () => {
+    // get token from local storage
+    // check if token exists, if so set user with action
+    //
+
     const [themeDark, setThemeDark] = useState(false);
     const themeToggler = () => {
         themeDark ? setThemeDark(false) : setThemeDark(true);
@@ -20,8 +25,14 @@ const App = () => {
                 <Route exact path="/">
                     <HomePage />
                 </Route>
+                <Route exact path="/signup">
+                    <SignupPage />
+                </Route>
                 <Route exact path="/balance">
                     <BalancePage themeDark={themeDark} />
+                </Route>
+                <Route exact path="/link">
+                    <LaunchLink themeDark={themeDark} />
                 </Route>
             </div>
         </div>
