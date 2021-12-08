@@ -2,15 +2,16 @@ import React, { useState, useEffect } from "react";
 import { Button, Dropdown } from "react-bootstrap";
 import "./navbar.css";
 import "bootstrap/dist/css/bootstrap.css";
-
 import { FiSun, FiMoon } from "react-icons/fi";
-
 import logo from "./icons/default-user-icon.jpg";
-
 import { NavLink } from "react-router-dom";
+import { logoutUser } from "../actions/authActions.js";
+import { useSelector, useDispatch } from "react-redux";
 
 const Navbar = ({ themeToggler, themeDark }) => {
     // const [show, handleShow] = useState(false);
+
+    const dispatch = useDispatch();
 
     const click = () => {
         themeToggler();
@@ -27,6 +28,16 @@ const Navbar = ({ themeToggler, themeDark }) => {
     //         window.removeEventListener("scroll");
     //     };
     // }, []);
+
+    const handleSignout = async (e) => {
+        console.log("trying to log out");
+        e.preventDefault();
+        try {
+            await dispatch(logoutUser());
+        } catch (err) {
+            console.log("error for signing out: ", err);
+        }
+    };
 
     return (
         <div>
@@ -50,7 +61,7 @@ const Navbar = ({ themeToggler, themeDark }) => {
                     </Dropdown.Toggle>
                     <Dropdown.Menu flip={false} align="end" className="usermenu">
                         <Dropdown.Item href="#/action-2">Account Settings</Dropdown.Item>
-                        <Dropdown.Item href="#/action-3">Sign out</Dropdown.Item>
+                        <Dropdown.Item onClick={handleSignout}>Sign out</Dropdown.Item>
                     </Dropdown.Menu>
                 </Dropdown>
             </nav>

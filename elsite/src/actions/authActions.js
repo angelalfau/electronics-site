@@ -8,7 +8,11 @@ export const registerUser = (formData, history) => (dispatch) => {
     instance
         .post("/signup", formData)
         .then((res) => {
-            console.log(res);
+            console.log(res.data);
+            return res.data;
+            // if (res.data.errors) {
+
+            // }
             // history.push("/login");
         }) // re-direct to login on successful register
         .catch((err) => {
@@ -65,10 +69,12 @@ export const setUserLoading = () => {
 
 // Log user out
 export const logoutUser = () => (dispatch) => {
+    console.log("action for logout");
     // Remove token from local storage
     localStorage.removeItem("jwtToken");
     // Remove auth header for future requests
     setAuthToken(false);
     // Set current user to empty object {} which will set isAuthenticated to false
     dispatch(setCurrentUser({}));
+    return "logged out";
 };

@@ -28,7 +28,6 @@ const SignupPage = () => {
     const [formData, updateFormData] = useState(initialFormData);
     const [selection, setSelection] = useState(0);
     const [errors, setErrors] = useState("");
-    const [name, setName] = useState("");
     const isLoading = useSelector((state) => state.loading);
 
     const handleChange = (e) => {
@@ -39,8 +38,7 @@ const SignupPage = () => {
     };
     useEffect(() => {
         setUserLoading();
-        console.log("user logging");
-        console.log(user);
+        console.log("user Effect: ", user);
         console.log("loading: ", isLoading);
     });
 
@@ -51,7 +49,9 @@ const SignupPage = () => {
         console.log(formData);
         // console.log(errors);
         try {
-            await dispatch(registerUser(formData));
+            await dispatch(registerUser(formData)).then((res) => {
+                console.log(res);
+            });
             // await instance.post("/signup", formData).then((res) => {
             //     console.log(res);
             //     setErrors(res.data.errors);

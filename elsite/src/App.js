@@ -1,4 +1,4 @@
-import { React, useState } from "react";
+import { React, useState, useEffect } from "react";
 import "./App.css";
 import { Route } from "react-router-dom";
 import "./components/themes.css";
@@ -7,11 +7,44 @@ import SignupPage from "./components/signupPage";
 import BalancePage from "./components/balancePage";
 import LaunchLink from "./components/LaunchLink.tsx";
 import HomePage from "./components/homePage";
+import { useSelector, useDispatch } from "react-redux";
+import jwt_decode from "jwt-decode";
+import { Redirect } from "react-router-dom";
+
+import {
+    registerUser,
+    loginUser,
+    setCurrentUser,
+    setUserLoading,
+    logoutUser,
+} from "./actions/authActions.js";
 
 const App = () => {
     // get token from local storage
     // check if token exists, if so set user with action
     //
+
+    const user = useSelector((state) => state.auth.user);
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        if (window.location.pathname !== "/signup" && !user.name) {
+            console.log("user not logged in");
+            const token = localStorage.getItem("jwtToken");
+            if (token) {
+                console.log("user token found, logging in");
+                const decoded = jwt_decode(token);
+                dispatch(setCurrentUser(decoded));
+            } else {
+                console.log("token not found, redirect to signup");
+                // send user to signupPage
+                // <Redirect to="/signup" />;
+                window.location = "/signup";
+            }
+        } else {
+            console.log("user already logged in: ", user);
+        }
+    }, []);
 
     const [themeDark, setThemeDark] = useState(false);
     const themeToggler = () => {
