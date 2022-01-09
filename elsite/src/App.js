@@ -20,12 +20,12 @@ import {
 } from "./actions/authActions.js";
 
 const App = () => {
-    // get token from local storage
-    // check if token exists, if so set user with action
-    //
-
     const user = useSelector((state) => state.auth.user);
     const dispatch = useDispatch();
+
+    // get token from local storage
+    // check if token exists, if so set user with action
+    // if not, redirect user to sign up page
 
     useEffect(() => {
         if (window.location.pathname !== "/signup" && !user.name) {
@@ -38,11 +38,8 @@ const App = () => {
             } else {
                 console.log("token not found, redirect to signup");
                 // send user to signupPage
-                // <Redirect to="/signup" />;
                 window.location = "/signup";
             }
-        } else {
-            console.log("user already logged in: ", user);
         }
     }, []);
 

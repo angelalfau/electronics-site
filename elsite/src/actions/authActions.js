@@ -4,12 +4,19 @@ import { GET_ERRORS, SET_CURRENT_USER, USER_LOADING } from "./types";
 import instance from "../components/axios.js";
 
 // Register User
-export const registerUser = (formData, history) => (dispatch) => {
+export const registerUser = (formData) => (dispatch) => {
     instance
         .post("/signup", formData)
         .then((res) => {
+            console.log("authAction for registering");
             console.log(res.data);
-            return res.data;
+            if (res.data.errors) {
+                console.log("error encountered: ", res.data.errors);
+                dispatch({
+                    type: GET_ERRORS,
+                    payload: res.data.errors,
+                });
+            }
             // if (res.data.errors) {
 
             // }
@@ -76,5 +83,12 @@ export const logoutUser = () => (dispatch) => {
     setAuthToken(false);
     // Set current user to empty object {} which will set isAuthenticated to false
     dispatch(setCurrentUser({}));
-    return "logged out";
+    window.location = "/signup";
+};
+
+export const setErrors = (errors) => {
+    return {
+        type: GET_ERRORS,
+        payload: errors,
+    };
 };

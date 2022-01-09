@@ -18,9 +18,6 @@ import {
 const HomePage = () => {
     const user = useSelector((state) => state.auth.user);
     const dispatch = useDispatch();
-    // useEffect(() => {
-    //     console.log(user);
-    // });
     return <div>Hello, {user.name}</div>;
 };
 

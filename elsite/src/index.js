@@ -6,6 +6,7 @@ import { Provider } from "react-redux";
 import store from "./store";
 
 ReactDOM.render(
+    // using Redux to store user and error status
     <Provider store={store}>
         <React.StrictMode>
             <BrowserRouter>
