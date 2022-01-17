@@ -1,9 +1,21 @@
 import React from "react";
 import "./balancePage.css";
-import instance from "./axios.js";
+import instance from "./axios";
 import { useEffect, useState } from "react";
 
-const Balance = ({ account }) => {
+interface Account {
+	name: string;
+	subtype: string;
+	balances: {
+		current: number;
+		iso_currency_code: string;
+	};
+}
+
+interface BalanceProps {
+	account: Account;
+}
+const Balance = ({ account }: BalanceProps) => {
 	// console.log(account);
 	var formatter = new Intl.NumberFormat("en-US", {
 		style: "currency",
@@ -19,7 +31,19 @@ const Balance = ({ account }) => {
 	);
 };
 
-const Transaction = ({ transaction }) => {
+interface Transaction {
+	iso_currency_code: string;
+	merchant_name: string;
+	name: string;
+	date: string;
+	amount: number;
+}
+
+interface TransactionProps {
+	transaction: Transaction;
+}
+
+const TransactionItem = ({ transaction }: TransactionProps) => {
 	var formatter = new Intl.NumberFormat("en-US", {
 		style: "currency",
 		currency: transaction.iso_currency_code || "USD",
@@ -34,8 +58,19 @@ const Transaction = ({ transaction }) => {
 	);
 };
 
-const BalancePage = ({ themeDark }) => {
-	const [mainAcc, setMainAcc] = useState({ data: [] });
+interface BalancePageProps {
+	themeDark: Boolean;
+}
+
+const BalancePage = ({ themeDark }: BalancePageProps) => {
+	const initialMainAcc = Object.freeze({
+		data: {
+			accounts: [],
+			transactions: [],
+		},
+	});
+
+	const [mainAcc, setMainAcc] = useState(initialMainAcc);
 	const [loading, setLoading] = useState(true);
 	const [selection, setSelection] = useState(0);
 
@@ -43,7 +78,7 @@ const BalancePage = ({ themeDark }) => {
 		try {
 			await instance
 				.post("/transactions", {
-					access_token: "access-sandbox-4acad0a3-4e55-4ecc-8a16-8114123c22c4",
+					access_token: "access-sandbox-f96510b6-5f9c-469c-9d55-7db3edbce5ef",
 				})
 				.then((res) => {
 					setMainAcc({ data: res.data });
@@ -59,15 +94,15 @@ const BalancePage = ({ themeDark }) => {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
-	const balanceList = (page) => {
+	const balanceList = (page: number = 0) => {
 		return mainAcc.data?.accounts?.map((currentAccount, i) => {
 			return <Balance key={i} account={currentAccount} />;
 		});
 	};
 
-	const transactionList = (page) => {
+	const transactionList = (page: number = 0) => {
 		return mainAcc.data?.transactions?.map((currentTransaction, i) => {
-			return <Transaction key={i} transaction={currentTransaction} />;
+			return <TransactionItem key={i} transaction={currentTransaction} />;
 		});
 	};
 
@@ -84,7 +119,7 @@ const BalancePage = ({ themeDark }) => {
 	return (
 		<div id="balancebackground">
 			<div id="balancecontainer">
-				<div id="leftselect" class={themeDark ? "darkButton" : "lightButton"}>
+				<div id="leftselect" className={themeDark ? "darkButton" : "lightButton"}>
 					<button
 						className={`selbtn ${selection === 0 ? "selected" : ""}`}
 						onClick={selectBalance}
@@ -104,34 +139,30 @@ const BalancePage = ({ themeDark }) => {
 						Investments
 					</button>
 				</div>
-				<div id="tables" class="tbl-header">
+				<div id="tables" className="tbl-header">
 					{loading ? (
 						<p>Currently Loading...</p>
 					) : selection === 0 ? (
 						<table cellPadding="0" cellSpacing="0">
-							<thead className="tbl-header" cellPadding="0" cellSpacing="0">
+							<thead className="tbl-header">
 								<tr>
 									<th>Institution Name</th>
 									<th>Account Type</th>
 									<th>Balance</th>
 								</tr>
 							</thead>
-							<tbody className="tbl-content" cellPadding="0" cellSpacing="0">
-								{balanceList()}
-							</tbody>
+							<tbody className="tbl-content">{balanceList()}</tbody>
 						</table>
 					) : selection === 1 ? (
 						<table cellPadding="0" cellSpacing="0">
-							<thead className="tbl-header" cellPadding="0" cellSpacing="0">
+							<thead className="tbl-header">
 								<tr>
 									<th>Institution Name</th>
 									<th>Date</th>
 									<th>Amount</th>
 								</tr>
 							</thead>
-							<tbody className="tbl-content" cellPadding="0" cellSpacing="0">
-								{transactionList()}
-							</tbody>
+							<tbody className="tbl-content">{transactionList()}</tbody>
 						</table>
 					) : selection === 2 ? (
 						<p>No investment accounts found</p>

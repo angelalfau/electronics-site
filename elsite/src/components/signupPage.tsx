@@ -1,5 +1,5 @@
-import { React, useState, useEffect, useCallback } from "react";
-import instance from "./axios.js";
+import React, { useState, useEffect, useCallback } from "react";
+import instance from "./axios";
 import { Link } from "react-router-dom";
 import "./signupPage.css";
 import { Form, Button } from "react-bootstrap";
@@ -7,6 +7,8 @@ import { alignPropType } from "react-bootstrap/esm/DropdownMenu";
 import money from "./icons/dollar_signs.png";
 import { usePlaidLink, PlaidLinkOptions, PlaidLinkOnSuccess } from "react-plaid-link";
 import { useSelector, useDispatch } from "react-redux";
+import { RootState } from "../reducers";
+import { UserState } from "../models/userSchema";
 import {
 	setErrors,
 	registerUser,
@@ -14,11 +16,11 @@ import {
 	setCurrentUser,
 	setUserLoading,
 	logoutUser,
-} from "../actions/authActions.js";
+} from "../actions/authActions";
 
 const SignupPage = () => {
-	const user = useSelector((state) => state.auth.user);
-	const errors = useSelector((state) => state.errors);
+	const user = useSelector((state: RootState) => state.auth.user);
+	const errors = useSelector((state: RootState) => state.errors);
 	const dispatch = useDispatch();
 
 	const initialFormData = Object.freeze({
@@ -29,9 +31,9 @@ const SignupPage = () => {
 
 	const [formData, updateFormData] = useState(initialFormData);
 	const [selection, setSelection] = useState(0);
-	const isLoading = useSelector((state) => state.auth.loading);
+	const isLoading = useSelector((state: RootState) => state.auth.loading);
 
-	const handleChange = (e) => {
+	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		updateFormData({
 			...formData,
 			[e.target.name]: e.target.value.trim(),
@@ -43,7 +45,7 @@ const SignupPage = () => {
 		console.log("loading: ", isLoading);
 	});
 
-	const handleSignup = async (e) => {
+	const handleSignup = async (e: React.SyntheticEvent) => {
 		e.preventDefault();
 		console.log("trying to signup");
 		console.log(formData);
@@ -55,7 +57,7 @@ const SignupPage = () => {
 		}
 	};
 
-	const handleLogin = async (e) => {
+	const handleLogin = async (e: React.SyntheticEvent) => {
 		e.preventDefault();
 		dispatch(setErrors(""));
 		console.log("trying to log in");
@@ -63,7 +65,8 @@ const SignupPage = () => {
 		try {
 			setUserLoading();
 			await dispatch(loginUser(formData));
-			window.location = "/";
+			console.log("routing to homepage");
+			window.location.href = "/";
 		} catch (err) {
 			console.log("catching err");
 			console.log(err);
@@ -71,13 +74,17 @@ const SignupPage = () => {
 	};
 
 	const selectSignup = () => {
-		document.getElementById("loginform").reset();
+		let form = document.getElementById("loginform");
+		if (form) (form as HTMLFormElement).reset();
+		// document.getElementById("loginform").reset();
 		setSelection(0);
 		dispatch(setErrors(""));
 		updateFormData(initialFormData);
 	};
 	const selectLogin = () => {
-		document.getElementById("signupform").reset();
+		// document.getElementById("signupform").reset();
+		let form = document.getElementById("loginform");
+		if (form) (form as HTMLFormElement).reset();
 		setSelection(1);
 		dispatch(setErrors(""));
 		updateFormData(initialFormData);
@@ -98,7 +105,11 @@ const SignupPage = () => {
 									onChange={handleChange}
 								/>
 							</Form.Group>
-							{errors?.name ? <p class="erroritem">{errors.name}</p> : <div></div>}
+							{errors?.name ? (
+								<p className="erroritem">{errors.name}</p>
+							) : (
+								<div></div>
+							)}
 
 							<Form.Group className="formelement" controlId="formBasicEmail">
 								<Form.Control
@@ -109,7 +120,11 @@ const SignupPage = () => {
 									onChange={handleChange}
 								/>
 							</Form.Group>
-							{errors?.email ? <p class="erroritem">{errors.email}</p> : <div></div>}
+							{errors?.email ? (
+								<p className="erroritem">{errors.email}</p>
+							) : (
+								<div></div>
+							)}
 
 							<Form.Group className="formelement" controlId="formBasicPassword">
 								<Form.Control
@@ -121,7 +136,7 @@ const SignupPage = () => {
 								/>
 							</Form.Group>
 							{errors?.password ? (
-								<p class="erroritem">{errors.password}</p>
+								<p className="erroritem">{errors.password}</p>
 							) : (
 								<div></div>
 							)}
@@ -144,7 +159,7 @@ const SignupPage = () => {
 									onChange={handleChange}
 								/>
 							</Form.Group>
-							{errors?.email ? <p class="erroritem">{errors.email}</p> : <div />}
+							{errors?.email ? <p className="erroritem">{errors.email}</p> : <div />}
 
 							<Form.Group className="formelement" controlId="formBasicPassword">
 								<Form.Control
@@ -156,7 +171,7 @@ const SignupPage = () => {
 								/>
 							</Form.Group>
 							{errors?.password ? (
-								<p class="erroritem">{errors.password}</p>
+								<p className="erroritem">{errors.password}</p>
 							) : (
 								<div />
 							)}
@@ -170,26 +185,26 @@ const SignupPage = () => {
 						</Form>
 					)}
 					{selection === 0 ? (
-						<button class="switchform" onClick={selectLogin}>
+						<button className="switchform" onClick={selectLogin}>
 							Already a user? Login here
 						</button>
 					) : (
-						<button class="switchform" onClick={selectSignup}>
+						<button className="switchform" onClick={selectSignup}>
 							New user? Signup here
 						</button>
 					)}
 				</div>
 			</div>
 			<div id="inforow">
-				<div id="leftinfo" class="infobox">
+				<div id="leftinfo" className="infobox">
 					<img src={money} alt="money" />
 					<h2>Transactions</h2>
 				</div>
-				<div id="leftinfo" class="infobox">
+				<div id="leftinfo" className="infobox">
 					<img src={money} alt="money" />
 					<h2>Transactions</h2>
 				</div>
-				<div id="leftinfo" class="infobox">
+				<div id="leftinfo" className="infobox">
 					<img src={money} alt="money" />
 					<h2>Transactions</h2>
 				</div>
