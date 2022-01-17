@@ -4,23 +4,24 @@ import { Request, Response, NextFunction, RequestHandler } from "express";
 const router = express.Router();
 // const user = require("../service/user.tsx");
 import user from "../service/user";
-var path = require("path");
-const jwt = require("jsonwebtoken");
+// var path = require("path");
+import jwt from "jsonwebtoken";
+// const jwt = require("jsonwebtoken");
 
 // route for logging in
 router.post("/login", async (req: Request, res: Response) => {
 	try {
 		console.log("logging in");
 		console.log(req.body);
-		const [anyErrors, post] = await user.login(req.body);
+		const post = await user.login(req.body);
 
-		if (anyErrors) {
+		if (post.anyErrors) {
 			console.log("found errors");
-			console.log(post);
-			res.status(200).json({ errors: post });
+			console.log(post.errors);
+			res.status(200).json({ errors: post.errors });
 		} else {
 			console.log("no errors found");
-			jwt.sign(
+			await jwt.sign(
 				{
 					id: post.id,
 					name: post.name,
@@ -31,6 +32,8 @@ router.post("/login", async (req: Request, res: Response) => {
 					expiresIn: 31556926, // 1 year in seconds
 				},
 				(err, token) => {
+					console.log(`user_controller token: ${token}`);
+
 					res.json({
 						success: true,
 						token: "Bearer " + token,
@@ -41,7 +44,7 @@ router.post("/login", async (req: Request, res: Response) => {
 		}
 	} catch (error) {
 		console.log("caught error : " + error);
-		res.status(400).json(error.message);
+		res.status(400).json(error);
 	}
 });
 
@@ -50,17 +53,17 @@ router.post("/signup", async (req: Request, res: Response) => {
 	try {
 		console.log("signing up");
 		console.log(req.body);
-		[errors, post] = await user.signup(req.body);
+		const post = await user.signup(req.body);
 
-		if (errors) {
+		if (post.anyErrors) {
 			console.log("found errors");
-			console.log(post);
-			res.status(200).json({ errors: post });
+			console.log(post.errors);
+			res.status(200).json({ errors: post.errors });
 		} else {
 			res.status(201).json(post);
 		}
 	} catch (error) {
-		res.status(400).json(error.message);
+		res.status(400).json(error);
 	}
 });
 
@@ -73,20 +76,20 @@ router.get("/allusers", async (req: Request, res: Response) => {
 			res.write("\n");
 		});
 		res.status(201).send();
-	} catch (e) {
+	} catch (error) {
 		// res.status(400).json({ msg: error });
-		console.log(e);
-		res.status(400).send(e.msg);
+		console.log(error);
+		res.status(400).send(error);
 	}
 });
 
 // route for deleting a user account
 router.delete("/removeuser", async (req: Request, res: Response) => {
 	try {
-		deleted = await user.deleteUser(req.body);
+		const deleted = await user.deleteUser(req.body);
 		res.status(200).json(deleted);
 	} catch (error) {
-		res.status(400).json(error.message);
+		res.status(400).json(error);
 	}
 });
 
@@ -95,8 +98,8 @@ router.delete("/deleteallusers", async (req: Request, res: Response) => {
 	try {
 		await user.deleteAllUsers();
 		res.status(200).send("deleted all users. hope this was not a mistake");
-	} catch (err) {
-		res.status(400).json(err);
+	} catch (error) {
+		res.status(400).json(error);
 	}
 });
 

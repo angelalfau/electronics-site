@@ -29,7 +29,7 @@ mongoose
 
 app.use(passport.initialize());
 
-require("./service/passport.tsx")(passport);
+require("./service/passport.ts")(passport);
 
 app.use(modules.Bank, modules.User);
 

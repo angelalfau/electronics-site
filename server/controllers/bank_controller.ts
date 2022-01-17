@@ -2,7 +2,8 @@
 import { Request, Response, NextFunction, RequestHandler } from "express";
 import express from "express";
 const router = express.Router();
-const bank = require("../service/bank.tsx");
+// const bank = require("../service/bank");
+import bank from "../service/bank";
 
 // router.get("/getbanks", async (req, res) => {
 //     res.send("uwu Hello");

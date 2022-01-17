@@ -42,8 +42,9 @@ const SignupPage = () => {
 	useEffect(() => {
 		setUserLoading();
 		console.log("user Effect: ", user);
+		console.log("error Effect: ", errors);
 		console.log("loading: ", isLoading);
-	});
+	}, []);
 
 	const handleSignup = async (e: React.SyntheticEvent) => {
 		e.preventDefault();
@@ -63,10 +64,12 @@ const SignupPage = () => {
 		console.log("trying to log in");
 		console.log(formData);
 		try {
+			console.log("1");
 			setUserLoading();
+			console.log("2");
+
 			await dispatch(loginUser(formData));
-			console.log("routing to homepage");
-			window.location.href = "/";
+			console.log("3");
 		} catch (err) {
 			console.log("catching err");
 			console.log(err);

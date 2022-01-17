@@ -44,7 +44,7 @@ const App = () => {
 		}
 	}, []);
 
-	const [themeDark, setThemeDark] = useState(false);
+	const [themeDark, setThemeDark] = useState(true);
 	const themeToggler = () => {
 		themeDark ? setThemeDark(false) : setThemeDark(true);
 	};

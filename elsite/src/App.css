@@ -1,42 +1,43 @@
 .themebtn {
-    margin: 0;
-    padding: 0;
+	margin: 0;
+	padding: 0;
 }
 
 .App {
-    text-align: center;
+	text-align: center;
 }
 
 .App-header {
-    background-color: #282c34;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    font-size: calc(10px + 2vmin);
-    color: white;
+	background-color: #282c34;
+	min-height: 100vh;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	font-size: calc(10px + 2vmin);
+	color: white;
 }
 
 .App-link {
-    color: #61dafb;
+	color: #61dafb;
 }
 
 div {
-    font-family: "Josefin Sans", sans-serif;
-    /* transition: all 0.3s linear; */
+	font-family: "Josefin Sans", sans-serif;
+	/* transition: all 0.3s linear; */
 }
 
 @media screen and (max-width: 800px) {
-    div {
-        font-family: "Josefin Sans", sans-serif;
-    }
+	div {
+		font-family: "Josefin Sans", sans-serif;
+	}
 }
 
 #body-background {
-    background-color: #282c34;
-    height: auto;
-    margin: 0;
-    min-width: fit-content;
-    /* transition: all 0.3s linear; */
+	background-color: #282c34;
+	height: auto;
+	margin: 0;
+	min-width: fit-content;
+	min-height: 1000px;
+	/* transition: all 0.3s linear; */
 }

@@ -28,6 +28,7 @@ yarn-error.log*
 /server/config.js
 /server/config.env
 /server/.env
+/elsite/src/components/config.json
 
 # backups
 recordList_backup.js

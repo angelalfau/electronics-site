@@ -12,69 +12,62 @@ interface formBody {
 }
 
 const login = async (body: formBody) => {
-	var errors = {
+	var post = {
+		errors: {
+			email: "",
+			password: "",
+		},
+		anyErrors: false,
 		id: "",
 		name: "",
 		password: "",
 		email: "",
 	};
-	var anyErrors = false;
 
-	if (body.password == "") {
-		errors.password = "Please enter a password";
-		anyErrors = true;
+	if (body.password === "") {
+		post.errors.password = "Please enter a password";
+		post.anyErrors = true;
 	}
 
 	if (body.email == "") {
-		errors.email = "Email field is required";
-		anyErrors = true;
+		post.errors.email = "Email field is required";
+		post.anyErrors = true;
 	} else if (!Validator.isEmail(body.email)) {
-		errors.email = "Email is invalid";
-		anyErrors = true;
+		post.errors.email = "Email is invalid";
+		post.anyErrors = true;
 	}
 
 	// can add confirm password here
 	// can add hashing/salting of password here
 
-	if (anyErrors) {
-		return [true, errors];
+	if (post.anyErrors) {
+		return post;
 	} else {
-		var userQuery = {
-			id: "",
-			name: "",
-			email: "",
-			password: "",
-		};
 		await User.findOne({ email: body.email, password: body.password }).then((res) => {
-			// console.log("res: ", res);
-			userQuery = res;
+			console.log("res: ", res);
+			if (res) {
+				post.id = res.id;
+				post.email = res.email;
+				post.password = res.password;
+				post.name = res.name;
+			} else {
+				console.log("incorrect email or password");
+				post.errors.email = "Incorrect email or password";
+				post.anyErrors = true;
+			}
 		});
 		console.log("query shown below");
-		console.log(userQuery);
-		if (userQuery) {
-			// Log in successful, set up jwt
+		console.log(post);
+		if (!post.anyErrors) {
+			// Log in successful
 			console.log("Found User");
-			return [false, userQuery];
-			// jwt.sign(
-			//     {
-			//         id: userQuery.id,
-			//         name: userQuery.name,
-			//     },
-			//     "secret",
-			//     {
-			//         expiresIn: 31556926, // 1 year in seconds
-			//     },
-			//     (err, token) => {
-			//         res.json({
-			//             success: true,
-			//             token: "Bearer " + token,
-			//         });
-			//     }
-			// );
+			return post;
 		} else {
+			// Log in not successful
 			console.log("incorrect email or password");
-			errors.email = "Incorrect email or password";
-			return [true, errors];
+			post.errors.email = "Incorrect email or password";
+			post.anyErrors = true;
+			return post;
 		}
 		// return [false, post];
 	}
@@ -83,42 +76,47 @@ const login = async (body: formBody) => {
 // register a new user
 // check if email is alrdy signed up
 const signup = async (body: formBody) => {
-	var errors = {
+	var post = {
+		errors: {
+			email: "",
+			name: "",
+			password: "",
+		},
+		anyErrors: false,
 		password: "",
 		email: "",
 		name: "",
 	};
-	var anyErrors = false;
 
 	if (body.email == "") {
-		errors.email = "Email field is required";
-		anyErrors = true;
+		post.errors.email = "Email field is required";
+		post.anyErrors = true;
 	} else if (!Validator.isEmail(body.email)) {
-		errors.email = "Email is invalid";
-		anyErrors = true;
+		post.errors.email = "Email is invalid";
+		post.anyErrors = true;
 	} else if (await User.exists({ email: body.email })) {
-		errors.email = "Email is taken";
-		anyErrors = true;
+		post.errors.email = "Email is taken";
+		post.anyErrors = true;
 	}
 
 	if (body.name == "") {
-		errors.name = "Please enter your full name";
-		anyErrors = true;
+		post.errors.name = "Please enter your full name";
+		post.anyErrors = true;
 	}
 
 	if (body.password == "") {
-		errors.password = "Please enter a password";
-		anyErrors = true;
+		post.errors.password = "Please enter a password";
+		post.anyErrors = true;
 	}
 	// can add confirm password here
 	// can add hashing/salting of password here
 
-	if (anyErrors) {
-		return [true, errors];
+	if (post.anyErrors) {
+		return post;
 	} else {
 		const newUser = new User(body);
 		const post = await newUser.save();
-		return [false, post];
+		return post;
 	}
 };
 

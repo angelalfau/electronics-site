@@ -2,7 +2,7 @@ import React from "react";
 import "./balancePage.css";
 import instance from "./axios";
 import { useEffect, useState } from "react";
-
+import Config from "./config.json";
 interface Account {
 	name: string;
 	subtype: string;
@@ -78,7 +78,7 @@ const BalancePage = ({ themeDark }: BalancePageProps) => {
 		try {
 			await instance
 				.post("/transactions", {
-					access_token: "access-sandbox-f96510b6-5f9c-469c-9d55-7db3edbce5ef",
+					access_token: Config.SB_TOKEN,
 				})
 				.then((res) => {
 					setMainAcc({ data: res.data });

@@ -115,3 +115,10 @@ exports.createToken = createToken;
 exports.sandboxCreateToken = sandboxCreateToken;
 exports.getBalance = getBalance;
 exports.getTransactions = getTransactions;
+
+export default {
+	createToken,
+	sandboxCreateToken,
+	getBalance,
+	getTransactions,
+};

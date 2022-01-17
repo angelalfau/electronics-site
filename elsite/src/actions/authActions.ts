@@ -20,8 +20,9 @@ export const registerUser = (formData: FormData) => (dispatch: Function) => {
 				});
 			} else {
 				// we login
+				console.log("logging in with: ", formData);
+
 				dispatch(loginUser(formData));
-				window.location.href = "/";
 			}
 			// if (res.data.errors) {
 
@@ -46,25 +47,34 @@ export const loginUser = (formData: FormData) => (dispatch: Function) => {
 		.post("/login", formData)
 		.then((res) => {
 			console.log("start of authAction for logging in");
-			// Save to localStorage
-			// Set token to localStorage
-			const token = res.data.token;
-			localStorage.setItem("jwtToken", token);
-			// Set token to Auth header
-			setAuthToken(token);
-			// Decode token to get user data
-			const decoded: UserState = jwt_decode(token);
-			// Set current user
-			dispatch(setCurrentUser(decoded));
-			console.log("end of authAction for logging in");
+			console.log(res);
+			if (res.data.errors) {
+				dispatch({
+					type: GET_ERRORS,
+					payload: res.data.errors,
+				});
+			} else {
+				// Save to localStorage
+				// Set token to localStorage
+				const token = res.data.token;
+				localStorage.setItem("jwtToken", token);
+				// Set token to Auth header
+				setAuthToken(token);
+				// Decode token to get user data
+				const decoded: UserState = jwt_decode(token);
+				// Set current user
+				dispatch(setCurrentUser(decoded));
+				console.log("end of authAction for logging in");
+				window.location.href = "/";
+			}
 		})
 		.catch((err) => {
 			console.log("axios logging error");
 
-			console.log(err);
+			console.log(err.message);
 			dispatch({
 				type: GET_ERRORS,
-				payload: err.response.data,
+				payload: err.message,
 			});
 		});
 };
