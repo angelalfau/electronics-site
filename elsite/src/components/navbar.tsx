@@ -7,19 +7,21 @@ import logo from "./icons/default-user-icon.jpg";
 import { NavLink } from "react-router-dom";
 import { logoutUser } from "../actions/authActions";
 import { useSelector, useDispatch } from "react-redux";
+import { RootState } from "../reducers";
+import { setDarkMode } from "../actions/prefActions";
 
-interface NavProps {
-	themeToggler: Function;
-	themeDark: boolean;
-}
-
-const Navbar = ({ themeToggler, themeDark }: NavProps) => {
+const Navbar = () => {
 	// const [show, handleShow] = useState(false);
+	const darkMode = useSelector((state: RootState) => state.prefs.darkMode);
 
 	const dispatch = useDispatch();
 
 	const click = () => {
-		themeToggler();
+		if (darkMode) {
+			dispatch(setDarkMode(false));
+		} else {
+			dispatch(setDarkMode(true));
+		}
 		// console.log("click");
 	};
 
@@ -46,14 +48,14 @@ const Navbar = ({ themeToggler, themeDark }: NavProps) => {
 
 	return (
 		<div>
-			<nav id={themeDark ? "dark" : "light"} className="navbar">
+			<nav id={darkMode ? "dark" : "light"} className="navbar">
 				<div className="nav-brand">
-					<NavLink className="nav-brand" id={themeDark ? "dark" : "light"} to="/">
+					<NavLink className="nav-brand" id={darkMode ? "dark" : "light"} to="/">
 						el<span id="brandstar">⭐</span>sito
 					</NavLink>
 				</div>
 				<Button className="hidden" onClick={() => click()}>
-					{themeDark ? <FiSun size={30} /> : <FiMoon size={30} color="black" />}
+					{darkMode ? <FiSun size={30} /> : <FiMoon size={30} color="black" />}
 				</Button>
 
 				<Dropdown className="hidden">

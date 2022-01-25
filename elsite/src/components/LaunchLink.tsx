@@ -1,60 +1,49 @@
-import React, { useCallback, useState, FunctionComponent } from "react";
-import { usePlaidLink, PlaidLinkOptions, PlaidLinkOnSuccess } from "react-plaid-link";
+// APP COMPONENT
+// Upon rendering of App component, make a request to create and
+// obtain a link token to be used in the Link component
+import React, { useEffect, useState } from "react";
+import { usePlaidLink } from "react-plaid-link";
 import instance from "./axios";
-
-interface Props {
-	token: string;
-}
-
-const PlaidLink: FunctionComponent<Props> = ({ token }) => {
-	const onSuccess = useCallback<PlaidLinkOnSuccess>((public_token, metadata) => {
-		// send public_token to server
-	}, []);
-
-	const config: PlaidLinkOptions = {
-		token,
-		onSuccess,
-		// onExit
-		// onEvent
+const LinkApp = () => {
+	const [linkToken, setLinkToken] = useState(null);
+	const generateToken = async () => {
+		const response = await instance.post("/api/create_link_token", {});
+		const data = await response.json();
+		setLinkToken(data.link_token);
 	};
-
-	const { open, ready, error } = usePlaidLink(config);
-
+	useEffect(() => {
+		generateToken();
+	}, []);
+	return linkToken != null ? <Link linkToken={linkToken} /> : <></>;
+};
+// LINK COMPONENT
+// Use Plaid Link and pass link token and onSuccess function
+// in configuration to initialize Plaid Link
+interface LinkProps {
+	linkToken: string | null;
+}
+const Link: React.FC<LinkProps> = (props: LinkProps) => {
+	const onSuccess = React.useCallback((public_token, metadata) => {
+		// send public_token to server
+		const response = fetch("/api/set_access_token", {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify({ public_token }),
+		});
+		// Handle response ...
+	}, []);
+	const config: Parameters<typeof usePlaidLink>[0] = {
+		token: props.linkToken!,
+		receivedRedirectUri: window.location.href,
+		onSuccess,
+	};
+	const { open, ready } = usePlaidLink(config);
 	return (
 		<button onClick={() => open()} disabled={!ready}>
-			Connect a bank account
+			Link account
 		</button>
 	);
 };
-
-const App: FunctionComponent = () => {
-	const [token, setToken] = useState<string | null>(null);
-
-	// generate a link_token
-	React.useEffect(() => {
-		async function createLinkToken() {
-			console.log("hey");
-
-			let response = await fetch("https://development.plaid.com/link/token/create", {
-				headers: {
-					"Content-Type": "application/json",
-					Accept: "application/json",
-				},
-			});
-			const { link_token } = await response.json();
-			setToken(link_token);
-		}
-		createLinkToken();
-		console.log(token);
-	}, []);
-
-	// only initialize Link once our token exists
-	return token === null ? (
-		// insert your loading animation here
-		<div className="loader">hi</div>
-	) : (
-		<PlaidLink token={token} />
-	);
-};
-
-export default App;
+export default LinkApp;

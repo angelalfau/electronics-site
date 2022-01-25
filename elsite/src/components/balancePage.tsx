@@ -3,6 +3,9 @@ import "./balancePage.css";
 import instance from "./axios";
 import { useEffect, useState } from "react";
 import Config from "./config.json";
+import { useSelector } from "react-redux";
+import { RootState } from "../reducers";
+
 interface Account {
 	name: string;
 	subtype: string;
@@ -58,11 +61,7 @@ const TransactionItem = ({ transaction }: TransactionProps) => {
 	);
 };
 
-interface BalancePageProps {
-	themeDark: Boolean;
-}
-
-const BalancePage = ({ themeDark }: BalancePageProps) => {
+const BalancePage = () => {
 	const initialMainAcc = Object.freeze({
 		data: {
 			accounts: [],
@@ -70,6 +69,7 @@ const BalancePage = ({ themeDark }: BalancePageProps) => {
 		},
 	});
 
+	const darkMode = useSelector((state: RootState) => state.prefs.darkMode);
 	const [mainAcc, setMainAcc] = useState(initialMainAcc);
 	const [loading, setLoading] = useState(true);
 	const [selection, setSelection] = useState(0);
@@ -119,7 +119,7 @@ const BalancePage = ({ themeDark }: BalancePageProps) => {
 	return (
 		<div id="balancebackground">
 			<div id="balancecontainer">
-				<div id="leftselect" className={themeDark ? "darkButton" : "lightButton"}>
+				<div id="leftselect" className={darkMode ? "darkButton" : "lightButton"}>
 					<button
 						className={`selbtn ${selection === 0 ? "selected" : ""}`}
 						onClick={selectBalance}

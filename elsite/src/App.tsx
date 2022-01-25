@@ -12,6 +12,7 @@ import jwt_decode from "jwt-decode";
 // import { Redirect } from "react-router-dom";
 import { RootState } from "./reducers";
 import { UserState } from "./models/userSchema";
+import { loadPrefs } from "./actions/prefActions";
 import {
 	registerUser,
 	loginUser,
@@ -22,6 +23,8 @@ import {
 
 const App = () => {
 	const user: UserState = useSelector((state: RootState) => state.auth.user);
+	const darkMode = useSelector((state: RootState) => state.prefs.darkMode);
+	const loaded = useSelector((state: RootState) => state.prefs.loaded);
 	const dispatch = useDispatch();
 
 	// get token from local storage
@@ -29,6 +32,9 @@ const App = () => {
 	// if not, redirect user to sign up page
 
 	useEffect(() => {
+		if (!loaded) {
+			dispatch(loadPrefs());
+		}
 		if (window.location.pathname !== "/signup" && !user.name) {
 			console.log("user not logged in");
 			const token = localStorage.getItem("jwtToken");
@@ -44,15 +50,11 @@ const App = () => {
 		}
 	}, []);
 
-	const [themeDark, setThemeDark] = useState(true);
-	const themeToggler = () => {
-		themeDark ? setThemeDark(false) : setThemeDark(true);
-	};
-
 	return (
 		<div id="body-background">
-			<div className={themeDark ? "darkTheme" : "lightTheme"}>
-				<Navbar themeToggler={themeToggler} themeDark={themeDark} />
+			<div className={darkMode ? "darkTheme" : "lightTheme"}>
+				<Navbar />
+				<div id="nav-divider" />
 				<Route exact path="/">
 					<HomePage />
 				</Route>
@@ -60,10 +62,10 @@ const App = () => {
 					<SignupPage />
 				</Route>
 				<Route exact path="/balance">
-					<BalancePage themeDark={themeDark} />
+					<BalancePage />
 				</Route>
 				{/* <Route exact path="/link">
-					<LaunchLink themeDark={themeDark} />
+					<LaunchLink />
 				</Route> */}
 			</div>
 		</div>

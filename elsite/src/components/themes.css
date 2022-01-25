@@ -1,11 +1,18 @@
 .lightTheme {
-    color: black;
-    background-color: white;
-    transition: all 0.5s linear;
+	color: black;
+	background-color: #cbf1f5;
+
+	/* color: black;
+	background-color: white; */
+	transition: all 0.5s linear;
+	min-height: 100vh;
 }
 
 .darkTheme {
-    color: white;
-    background-color: black;
-    transition: all 0.5s linear;
+	background-color: #393e46;
+	color: #eeeeee;
+	/* color: white;
+    background-color: black; */
+	transition: all 0.5s linear;
+	min-height: 100vh;
 }

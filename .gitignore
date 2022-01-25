@@ -32,3 +32,4 @@ yarn-error.log*
 
 # backups
 recordList_backup.js
+/backups

@@ -106,6 +106,7 @@ export const logoutUser = () => (dispatch: Function) => {
 	window.location.href = "/signup";
 };
 
+// sets errors
 export const setErrors = (errors: any) => {
 	return {
 		type: GET_ERRORS,

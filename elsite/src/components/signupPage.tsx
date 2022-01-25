@@ -21,6 +21,7 @@ import {
 const SignupPage = () => {
 	const user = useSelector((state: RootState) => state.auth.user);
 	const errors = useSelector((state: RootState) => state.errors);
+	const darkMode = useSelector((state: RootState) => state.prefs.darkMode);
 	const dispatch = useDispatch();
 
 	const initialFormData = Object.freeze({
@@ -31,7 +32,7 @@ const SignupPage = () => {
 
 	const [formData, updateFormData] = useState(initialFormData);
 	const [selection, setSelection] = useState(0);
-	const isLoading = useSelector((state: RootState) => state.auth.loading);
+	// const isLoading = useSelector((state: RootState) => state.auth.loading);
 
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		updateFormData({
@@ -40,11 +41,32 @@ const SignupPage = () => {
 		});
 	};
 	useEffect(() => {
-		setUserLoading();
-		console.log("user Effect: ", user);
-		console.log("error Effect: ", errors);
-		console.log("loading: ", isLoading);
-	}, []);
+		if (selection === 0) {
+			if (formData.name && formData.email && formData.password) {
+				console.log("all fields filled");
+				let loginBtn = document.getElementById("loginbtn");
+				if (loginBtn) loginBtn.removeAttribute("disabled");
+			} else if (!formData.name || !formData.email || !formData.password) {
+				console.log("form field empty");
+				let loginBtn = document.getElementById("loginbtn");
+				if (loginBtn) loginBtn.setAttribute("disabled", "disabled");
+			}
+		} else {
+			if (formData.email && formData.password) {
+				console.log("all fields filled");
+				let loginBtn = document.getElementById("loginbtn");
+				if (loginBtn) loginBtn.removeAttribute("disabled");
+			} else if (!formData.email || !formData.password) {
+				console.log("form field empty");
+				let loginBtn = document.getElementById("loginbtn");
+				if (loginBtn) loginBtn.setAttribute("disabled", "disabled");
+			}
+		}
+		// setUserLoading();
+		// console.log("user Effect: ", user);
+		// console.log("error Effect: ", errors);
+		// console.log("loading: ", isLoading);
+	});
 
 	const handleSignup = async (e: React.SyntheticEvent) => {
 		e.preventDefault();
@@ -93,10 +115,12 @@ const SignupPage = () => {
 		updateFormData(initialFormData);
 	};
 	return (
-		<div id="background">
+		<div className="background">
 			<div id="container">
-				<h2 id="summary">A budget manager app to help manage budget!</h2>
-				<div id="form">
+				<h2 id={darkMode ? "dark-box" : "light-box"} className="summary">
+					A budget manager app to help manage budget!
+				</h2>
+				<div id={darkMode ? "dark-box" : "light-box"} className="form">
 					{selection === 0 ? (
 						<Form id="signupform" onSubmit={handleSignup}>
 							<Form.Group className="formelement" controlId="formName">
@@ -188,11 +212,19 @@ const SignupPage = () => {
 						</Form>
 					)}
 					{selection === 0 ? (
-						<button className="switchform" onClick={selectLogin}>
+						<button
+							id={darkMode ? "dark-box" : "light-box"}
+							className="switchform"
+							onClick={selectLogin}
+						>
 							Already a user? Login here
 						</button>
 					) : (
-						<button className="switchform" onClick={selectSignup}>
+						<button
+							id={darkMode ? "dark-box" : "light-box"}
+							className="switchform"
+							onClick={selectSignup}
+						>
 							New user? Signup here
 						</button>
 					)}
