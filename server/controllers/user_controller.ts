@@ -72,7 +72,7 @@ router.get("/allusers", async (req: Request, res: Response) => {
 	try {
 		const get = await user.getAllUsers();
 		get.forEach((acc) => {
-			res.write(acc.email + " : " + acc.password);
+			res.write(acc.email + " : " + acc.password + " : " + acc.id);
 			res.write("\n");
 		});
 		res.status(201).send();

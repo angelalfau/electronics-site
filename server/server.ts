@@ -1,18 +1,11 @@
-// const express = require("express");
+require("dotenv").config();
 import express from "express";
-// const cors = require("cors");
 import cors from "cors";
-// const mongoose = require("mongoose");
 import mongoose, { ConnectOptions } from "mongoose";
 import passport from "passport";
-// const { MONGO_URI } = require("./config");
-// var modules = require("./modules.ts");
 import modules from "./modules";
-//require("dotenv").config({ path: "./config.env" });
-require("dotenv").config();
 const port = process.env.PORT || 5000;
 const MONGO_URI = process.env.MONGO_URI as string;
-// const passport = require("passport");
 
 const app = express();
 app.use(cors());

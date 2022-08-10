@@ -4,46 +4,97 @@
 import React, { useEffect, useState } from "react";
 import { usePlaidLink } from "react-plaid-link";
 import instance from "./axios";
+import { useSelector, useDispatch } from "react-redux";
+import { RootState } from "../reducers";
+
 const LinkApp = () => {
-	const [linkToken, setLinkToken] = useState(null);
+	const user = useSelector((state: RootState) => state.auth.user);
+
+	const [linkToken, setLinkToken] = useState("");
+	interface LinkResponse {
+		data: {
+			link_token: string;
+		};
+	}
+
 	const generateToken = async () => {
-		const response = await instance.post("/api/create_link_token", {});
-		const data = await response.json();
-		setLinkToken(data.link_token);
+		const response: LinkResponse = await instance.post("/create_link_token", {
+			id: user.id,
+		});
+		await setLinkToken(response.data.link_token);
 	};
 	useEffect(() => {
-		generateToken();
-	}, []);
-	return linkToken != null ? <Link linkToken={linkToken} /> : <></>;
+		if (user.id) {
+			generateToken();
+		}
+	}, [user]);
+
+	useEffect(() => {
+		console.log("link token: ", linkToken);
+	});
+
+	return linkToken !== "" ? <LinkComponent linkToken={linkToken} /> : <></>;
 };
 // LINK COMPONENT
 // Use Plaid Link and pass link token and onSuccess function
 // in configuration to initialize Plaid Link
 interface LinkProps {
-	linkToken: string | null;
+	linkToken: string;
 }
-const Link: React.FC<LinkProps> = (props: LinkProps) => {
+const LinkComponent: React.FC<LinkProps> = (props: LinkProps) => {
+	const user = useSelector((state: RootState) => state.auth.user);
+
+	useEffect(() => {
+		console.log("Link Component called");
+	});
 	const onSuccess = React.useCallback((public_token, metadata) => {
+		console.log("onSuccess called");
+
 		// send public_token to server
-		const response = fetch("/api/set_access_token", {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json",
-			},
-			body: JSON.stringify({ public_token }),
+		const response = instance.post("/set_access_token", {
+			public_token: public_token,
+			id: user.id,
 		});
+		console.log(response);
+
 		// Handle response ...
 	}, []);
+
+	useEffect(() => {
+		console.log(props);
+	});
+
 	const config: Parameters<typeof usePlaidLink>[0] = {
-		token: props.linkToken!,
-		receivedRedirectUri: window.location.href,
+		token: props.linkToken,
+		// receivedRedirectUri: window.location.href,
 		onSuccess,
 	};
 	const { open, ready } = usePlaidLink(config);
+
+	const callAccessToken = () => {
+		instance
+			.post("/set_access_token", {
+				PUBLIC_TOKEN: "link-development-5aa3a121-176f-402f-98d2-bcf3ff5c72a4",
+				id: user.id,
+			})
+			.then((res) => {
+				console.log("xd");
+				console.log(res);
+			})
+			.catch((err) => {
+				console.log("error in calling access token ");
+
+				console.log(err);
+			});
+	};
 	return (
-		<button onClick={() => open()} disabled={!ready}>
-			Link account
-		</button>
+		<div>
+			<h1>hi</h1>
+			<button onClick={() => open()} disabled={!ready}>
+				Link account
+			</button>
+			<button onClick={() => callAccessToken()}>Call Access Token</button>
+		</div>
 	);
 };
 export default LinkApp;

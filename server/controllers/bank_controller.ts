@@ -1,31 +1,32 @@
-// const express = require("express");
 import { Request, Response, NextFunction, RequestHandler } from "express";
 import express from "express";
 const router = express.Router();
-// const bank = require("../service/bank");
 import bank from "../service/bank";
 
-// router.get("/getbanks", async (req, res) => {
-//     res.send("uwu Hello");
-// try {
-//     const posts = await Posts.find();
-//     if (!posts) throw Error("No Items");
-//     res.status(200).json(posts);
-// } catch (err) {
-//     res.status(400).json({ mesg: err });
-// }
-// });
+router.post("/create_link_token", async function (req: Request, res: Response) {
+	// Get the client_user_id by searching for the current user
+	const createTokenResponse = await bank.createLinkToken(req.body);
+	if (createTokenResponse) {
+		console.log(createTokenResponse.data);
 
-// router.post("/newbank", async (req, res) => {
-//     const newPost = new Posts(req.body);
-//     try {
-//         const post = await newPost.save();
-//         if (!post) throw Error("Something went wrong with the post");
-//         res.status(200).json(post);
-//     } catch {
-//         res.status(400).json({ msg: error });
-//     }
-// });
+		res.json(createTokenResponse.data);
+	} else {
+		res.send("Error with creating Link Token").status(400);
+	}
+});
+
+// Conversion of Link Token to Permanent Token
+router.post("/set_access_token", async (req: Request, res: Response) => {
+	console.log("set access token called");
+	console.log(req.body);
+	const post = await bank.setAccessToken(req.body);
+	console.log(post);
+
+	res.json({
+		access_token: post.ACCESS_TOKEN,
+		item_id: post.ITEM_ID,
+	});
+});
 
 router.post("/create-token", async (req: Request, res: Response) => {
 	console.log("attempting to create token");

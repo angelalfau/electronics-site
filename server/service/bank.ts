@@ -1,10 +1,80 @@
-// const { get } = require("http");
-// const Bank = require("../models/Bank.tsx");
 import Bank from "../models/Bank";
-// const instance = require("./axios.tsx");
+import User from "../models/User";
 import instance from "./axios";
-// const sb_instance = require("./sb_axios.tsx");
 import sb_instance from "./sb_axios";
+import { Configuration, CountryCode, PlaidApi, PlaidEnvironments, Products } from "plaid";
+
+const PLAID_ENV = process.env.PLAID_ENV;
+
+const configuration = new Configuration({
+	basePath: PlaidEnvironments[PLAID_ENV ? PLAID_ENV : "sandbox"],
+	baseOptions: {
+		headers: {
+			"PLAID-CLIENT-ID": process.env.PLAID_CLIENT_ID,
+			"PLAID-SECRET": process.env.PLAID_SECRET_DEVELOPMENT,
+			"Plaid-Version": "2020-09-14",
+		},
+	},
+});
+
+const client = new PlaidApi(configuration);
+
+interface LinkTokenBody {
+	id: string;
+}
+
+const createLinkToken = async (body: LinkTokenBody) => {
+	const request = {
+		user: {
+			// This should correspond to a unique id for the current user.
+			client_user_id: body.id,
+			// can pass in name and number and email
+		},
+		client_name: "elsito",
+		products: [Products.Auth],
+		language: "en",
+		//webhook: "https://webhook.example.com",
+		// redirect_uri: "",
+		country_codes: [CountryCode.Us],
+	};
+	try {
+		return await client.linkTokenCreate(request);
+	} catch (error) {
+		console.log(error);
+	}
+};
+
+interface SetAccessTokenProps {
+	PUBLIC_TOKEN: string;
+	id: string;
+}
+
+const setAccessToken = async ({ PUBLIC_TOKEN, id }: SetAccessTokenProps) => {
+	console.log("PUBLIC_TOKEN: ", PUBLIC_TOKEN);
+	console.log("id: ", id);
+	const tokenResponse = await client.itemPublicTokenExchange({
+		public_token: PUBLIC_TOKEN,
+	});
+	const ACCESS_TOKEN = tokenResponse.data.access_token;
+	const ITEM_ID = tokenResponse.data.item_id;
+	// if (PLAID_PRODUCTS.includes("transfer")) {
+	// 	TRANSFER_ID = await authorizeAndCreateTransfer(ACCESS_TOKEN);
+	// }
+
+	// store access token in users db
+	await User.findOneAndUpdate(
+		{ _id: id },
+		{
+			access_token: ACCESS_TOKEN,
+		}
+	).then((res) => {
+		console.log(res);
+	});
+	return {
+		ACCESS_TOKEN: ACCESS_TOKEN,
+		ITEM_ID: ITEM_ID,
+	};
+};
 
 interface NewTokenBody {}
 
@@ -117,8 +187,10 @@ exports.getBalance = getBalance;
 exports.getTransactions = getTransactions;
 
 export default {
+	createLinkToken,
 	createToken,
 	sandboxCreateToken,
 	getBalance,
 	getTransactions,
+	setAccessToken,
 };

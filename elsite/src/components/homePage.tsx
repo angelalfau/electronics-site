@@ -19,7 +19,9 @@ const HomePage = () => {
 
 	return (
 		<div id="home-background">
-			<div id="link-start">{/* <LaunchLink /> */}</div>
+			<div id="link-start">
+				<LaunchLink />
+			</div>
 		</div>
 	);
 };
